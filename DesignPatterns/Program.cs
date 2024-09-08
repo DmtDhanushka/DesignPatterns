@@ -1,28 +1,21 @@
 ﻿using DesignPatterns;
 
 
-// Usage Example
+
+// Client code using IVideoPlayer
 class Program
 {
     static void Main(string[] args)
     {
-        // Create a subject (Weather Station)
-        WeatherStation weatherStation = new WeatherStation();
+        // Play MP4 using the standard player
+        IVideoPlayer mp4Player = new MP4Player();
+        mp4Player.PlayVideo("movie.mp4");  // Output: Playing MP4 video: movie.mp4
 
-        // Create observers (Phone Display, Window Display)
-        PhoneDisplay phoneDisplay = new PhoneDisplay();
-        WindowDisplay windowDisplay = new WindowDisplay();
-
-        // Attach observers to the subject
-        weatherStation.Attach(phoneDisplay);
-        weatherStation.Attach(windowDisplay);
-
-        // Change the temperature, which will notify all observers
-        weatherStation.SetTemperature(25);  // Output: Phone Display: Updated temperature is 25°C. Window Display: Updated temperature is 25°C.
-        weatherStation.SetTemperature(30);  // Output: Phone Display: Updated temperature is 30°C. Window Display: Updated temperature is 30°C.
-
-        // Detach an observer (Phone Display)
-        weatherStation.Detach(phoneDisplay);
-        weatherStation.SetTemperature(35);  // Output: Window Display: Updated temperature is 35°C.
+        // VLC player
+        VLCPlayer vlcPlayer = new VLCPlayer();
+        
+        // Play VLC video using the adapter
+        IVideoPlayer vlcAdapter = new VLCPlayerAdapter(vlcPlayer);
+        vlcAdapter.PlayVideo("clip.vlc");  // Output: Playing VLC video: clip.vlc
     }
 }
