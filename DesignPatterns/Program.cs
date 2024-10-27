@@ -1,21 +1,18 @@
 ﻿using DesignPatterns;
 
 
-
-// Client code using IVideoPlayer
+// Main program to demonstrate the Adapter Pattern
 class Program
 {
     static void Main(string[] args)
     {
-        // Play MP4 using the standard player
+        // Playing an MP4 video using the MP4Player, which directly implements IVideoPlayer
         IVideoPlayer mp4Player = new MP4Player();
-        mp4Player.PlayVideo("movie.mp4");  // Output: Playing MP4 video: movie.mp4
+        mp4Player.PlayVideo("movie.mp4"); // Output: Playing MP4 video: movie.mp4
 
-        // VLC player
+        // Playing a VLC video using VLCPlayer, adapted to IVideoPlayer using VLCPlayerAdapter
         VLCPlayer vlcPlayer = new VLCPlayer();
-        
-        // Play VLC video using the adapter
         IVideoPlayer vlcAdapter = new VLCPlayerAdapter(vlcPlayer);
-        vlcAdapter.PlayVideo("clip.vlc");  // Output: Playing VLC video: clip.vlc
+        vlcAdapter.PlayVideo("documentary.vlc"); // Output: Playing VLC video: documentary.vlc
     }
 }
