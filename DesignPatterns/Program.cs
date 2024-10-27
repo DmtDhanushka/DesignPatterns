@@ -1,21 +1,33 @@
-﻿using DesignPatterns;
+﻿using System;
 
-
-
-// Client code using IVideoPlayer
-class Program
+namespace DesignPatterns
 {
-    static void Main(string[] args)
+    // Main program to demonstrate the Factory Pattern
+    class Program
     {
-        // Play MP4 using the standard player
-        IVideoPlayer mp4Player = new MP4Player();
-        mp4Player.PlayVideo("movie.mp4");  // Output: Playing MP4 video: movie.mp4
+        static void Main(string[] args)
+        {
+            // Create an instance of VehicleFactory
+            VehicleFactory vehicleFactory = new VehicleFactory();
 
-        // VLC player
-        VLCPlayer vlcPlayer = new VLCPlayer();
-        
-        // Play VLC video using the adapter
-        IVideoPlayer vlcAdapter = new VLCPlayerAdapter(vlcPlayer);
-        vlcAdapter.PlayVideo("clip.vlc");  // Output: Playing VLC video: clip.vlc
+            // Request a "Car" from the factory
+            IVehicle car = vehicleFactory.GetVehicle("car");
+            car.Drive(); // Output: Driving a car!
+
+            // Request a "Bike" from the factory
+            IVehicle bike = vehicleFactory.GetVehicle("bike");
+            bike.Drive(); // Output: Riding a bike!
+
+            // Example of an invalid type
+            try
+            {
+                IVehicle unknown = vehicleFactory.GetVehicle("plane");
+                unknown.Drive(); // This line won't execute due to the exception
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message); // Output: Unknown vehicle type.
+            }
+        }
     }
 }
