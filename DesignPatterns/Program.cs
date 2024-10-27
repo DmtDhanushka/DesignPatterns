@@ -1,21 +1,44 @@
-﻿using DesignPatterns;
+﻿using System;
 
-
-
-// Client code using IVideoPlayer
-class Program
+namespace DesignPatterns
 {
-    static void Main(string[] args)
+    // Main program to demonstrate the Observer Pattern
+    class Program
     {
-        // Play MP4 using the standard player
-        IVideoPlayer mp4Player = new MP4Player();
-        mp4Player.PlayVideo("movie.mp4");  // Output: Playing MP4 video: movie.mp4
+        static void Main(string[] args)
+        {
+            // Create a WeatherStation instance
+            WeatherStation weatherStation = new WeatherStation();
 
-        // VLC player
-        VLCPlayer vlcPlayer = new VLCPlayer();
-        
-        // Play VLC video using the adapter
-        IVideoPlayer vlcAdapter = new VLCPlayerAdapter(vlcPlayer);
-        vlcAdapter.PlayVideo("clip.vlc");  // Output: Playing VLC video: clip.vlc
+            // Create observers
+            PhoneDisplay phoneDisplay = new PhoneDisplay();
+            WindowDisplay windowDisplay = new WindowDisplay();
+
+            // Attach observers to the WeatherStation
+            weatherStation.Attach(phoneDisplay);
+            weatherStation.Attach(windowDisplay);
+
+            // Simulate temperature updates
+            weatherStation.SetTemperature(25); // Both displays receive the update
+            // Output:
+            // Weather Station: Temperature updated to 25°C.
+            // Phone Display: Updated temperature is 25°C.
+            // Window Display: Updated temperature is 25°C.
+
+            weatherStation.SetTemperature(30); // Both displays receive the new update
+            // Output:
+            // Weather Station: Temperature updated to 30°C.
+            // Phone Display: Updated temperature is 30°C.
+            // Window Display: Updated temperature is 30°C.
+
+            // Detach the PhoneDisplay
+            weatherStation.Detach(phoneDisplay);
+
+            // Update temperature again, only WindowDisplay will receive the update
+            weatherStation.SetTemperature(20);
+            // Output:
+            // Weather Station: Temperature updated to 20°C.
+            // Window Display: Updated temperature is 20°C.
+        }
     }
 }
